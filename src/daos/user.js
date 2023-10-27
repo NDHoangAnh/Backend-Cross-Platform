@@ -14,8 +14,13 @@ const deleteUser = async (userId) => {
   await User.findByIdAndDelete(userId);
 };
 
-const addUser = async ({ email, username, hashPassword }) => {
-  const user = await User.create({ email, username, password: hashPassword });
+const addUser = async ({ email, username, hashPassword, otp }) => {
+  const user = await User.create({
+    email,
+    username,
+    password: hashPassword,
+    otpRegister: otp,
+  });
   return user;
 };
 

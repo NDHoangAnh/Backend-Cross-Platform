@@ -17,6 +17,18 @@ const registerController = async (req, res) => {
   return res.json(newUser);
 };
 
+const verifyOTPController = async (req, res) => {
+  const { email, otp } = req.body;
+  if (!otp || !email) {
+    return res.json({
+      errMsg: "Please enter otp or email",
+    });
+  }
+
+  const result = await authService.verifyOTPService(email, otp);
+  return res.json(result);
+};
+
 const loginController = async (req, res) => {
   const { email, password } = req.body;
   const { error } = validate.validateLogin(req.body);
@@ -28,4 +40,34 @@ const loginController = async (req, res) => {
   return res.json(user);
 };
 
-module.exports = { registerController, loginController };
+const requestChangePassController = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.json({
+      errMsg: "Please enter your email",
+    });
+  }
+
+  const result = await authService.requestChangePassService(email);
+  return res.json(result);
+};
+
+const resetPasswordController = async (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) {
+    return res.json({
+      errMsg: "Please enter your email or otp",
+    });
+  }
+
+  const result = await authService.resetPasswordService(email, otp);
+  return res.json(result);
+};
+
+module.exports = {
+  registerController,
+  loginController,
+  verifyOTPController,
+  requestChangePassController,
+  resetPasswordController,
+};
