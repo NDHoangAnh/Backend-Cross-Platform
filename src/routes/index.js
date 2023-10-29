@@ -17,5 +17,10 @@ router.put("/user/edit", userController.editUserController);
 router.put("/user/editPass", userController.editPasswordController);
 
 // admin
+router.get("/admin/getUser", adminController.adminGetUserController);
+router.delete(
+  "/admin/deleteUser/:id",
+  adminController.adminDeleteUserController
+);
 
 module.exports = router;

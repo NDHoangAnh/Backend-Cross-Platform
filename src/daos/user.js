@@ -5,6 +5,11 @@ const findUser = async (condition) => {
   return user;
 };
 
+const getListUser = async () => {
+  const listUser = await User.find({});
+  return listUser;
+};
+
 const updateUser = async (condition, data) => {
   const user = await User.findOneAndUpdate(condition, data, { new: true });
   return user;
@@ -24,4 +29,4 @@ const addUser = async ({ email, username, hashPassword, otp }) => {
   return user;
 };
 
-module.exports = { findUser, updateUser, deleteUser, addUser };
+module.exports = { findUser, updateUser, deleteUser, addUser, getListUser };
