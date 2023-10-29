@@ -5,11 +5,18 @@ const sendMail = require("../utils/sendEmail");
 
 const registerService = async ({ email, password, username }) => {
   const checkUser = await userDaos.findUser({ email });
-  if (checkUser) {
+  if (checkUser && checkUser.verified === true) {
     return {
       errMsg: "User existed",
     };
   }
+
+  if (checkUser && checkUser.verified !== true) {
+    return {
+      errMsg: "User is not verified",
+    };
+  }
+
   const otp = genOTP();
   await sendMail(email, "OTP for your account", otp);
 
@@ -28,7 +35,7 @@ const verifyOTPService = async (email, otp) => {
   }
 
   if (checkUser.otpRegister === otp) {
-    await userDaos.updateUser({ email }, { verified: true });
+    await userDaos.updateUser({ email }, { verified: true, otpRegister: null });
     return true;
   }
   return {
@@ -38,7 +45,7 @@ const verifyOTPService = async (email, otp) => {
 
 const loginService = async (email, password) => {
   const checkUser = await userDaos.findUser({ email });
-  if (checkUser) {
+  if (checkUser && checkUser.verified === true) {
     const checkPassword = await bcrypt.compare(password, checkUser.password);
     if (checkPassword) {
       const user = await userDaos.updateUser({ email }, { login: true });
@@ -49,7 +56,7 @@ const loginService = async (email, password) => {
     };
   }
   return {
-    errMsg: "User not found",
+    errMsg: "User not found or not be verified",
   };
 };
 
@@ -81,7 +88,10 @@ const resetPasswordService = async (email, otp) => {
     const newPass = "123456";
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(newPass, salt);
-    await userDaos.updateUser({ email }, { password: hashPassword });
+    await userDaos.updateUser(
+      { email },
+      { password: hashPassword, otpForgotPassword: null }
+    );
     return {
       msg: `Your new password is ${newPass}`,
     };

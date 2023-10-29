@@ -5,4 +5,5 @@ module.exports = {
   MONGO_URL: process.env.MONGO_URL,
   EMAIL: process.env.EMAIL,
   PASS_EMAIL: process.env.PASS_EMAIL,
+  EMAIL_ADMIN: process.env.EMAIL_ADMIN,
 };
