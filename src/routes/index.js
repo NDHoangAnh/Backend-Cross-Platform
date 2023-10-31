@@ -2,6 +2,7 @@ const express = require("express");
 const authController = require("../controllers/auth");
 const userController = require("../controllers/user");
 const adminController = require("../controllers/admin");
+const postController = require("../controllers/post");
 
 const router = express.Router();
 
@@ -22,5 +23,14 @@ router.delete(
   "/admin/deleteUser/:id",
   adminController.adminDeleteUserController
 );
+
+// post
+router.post("/post/add", postController.addPostController);
+router.get("/post/getAllPost", postController.getAllPostController);
+router.get("/post/getPost?:id", postController.getPostByIdController);
+router.put("/post/update/:id", postController.updatePostController);
+router.delete("/post/delete/:id", postController.deleteController);
+
+// like
 
 module.exports = router;

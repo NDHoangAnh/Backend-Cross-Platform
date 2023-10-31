@@ -19,6 +19,7 @@ const registerController = async (req, res) => {
 
 const verifyOTPController = async (req, res) => {
   const { email, otp } = req.body;
+  console.log(req.body);
   if (!otp || !email) {
     return res.json({
       errMsg: "Please enter otp or email",
