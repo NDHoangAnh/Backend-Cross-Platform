@@ -13,17 +13,9 @@ const addPostServices = async (data) => {
 
 const getPostService = async (data) => {
   if (data === "all") {
-    const data = await postDaos.getListPost();
-    const listPosts = data.map((post) => ({
-      _id: post._id,
-      senderId: post.senderId,
-      name: post.name,
-      content: post.content,
-      like: post.like,
-      comment: post.comment,
-      share: post.share,
-    }));
-    return listPosts;
+    const listPost = await postDaos.getListPost();
+
+    return listPost;
   }
 
   const post = await postDaos.findPost({ _id: data });

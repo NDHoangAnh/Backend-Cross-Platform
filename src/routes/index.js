@@ -45,6 +45,10 @@ router.put(
   "/comment/updateComment/:id",
   commentController.updateCommentController
 );
+router.get(
+  "/comment/getCommentOnPost/:id",
+  commentController.getAllCommentController
+);
 router.delete("/comment/delete/:id", commentController.deleteCommentController);
 router.put("/comment/like/:id", commentController.likeCommentController);
 

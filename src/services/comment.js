@@ -26,6 +26,24 @@ const addCommentServices = async (data) => {
   }
 };
 
+const getAllCommentServices = async (postId) => {
+  const post = await postDaos.findPost({ _id: postId });
+  if (post) {
+    const comments = post.comments;
+    let listComments = [];
+    for (let comment of comments) {
+      let cmt = await commentDaos.findComment({ _id: comment });
+      listComments.push(cmt);
+    }
+    console.log(listComments.length);
+    listComments.length > 0 ? listComments.shift() : "";
+
+    return listComments;
+  } else {
+    throw new Error("Not found Post");
+  }
+};
+
 const likeCommentService = async (data) => {
   const { commentId, senderId } = data;
   const comment = await commentDaos.findComment({ _id: commentId });
@@ -78,6 +96,7 @@ const updateCommentServices = async (data) => {
 module.exports = {
   addCommentServices,
   updateCommentServices,
+  getAllCommentServices,
   deleteCommentService,
   likeCommentService,
 };

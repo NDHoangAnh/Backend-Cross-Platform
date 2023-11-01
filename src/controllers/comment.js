@@ -18,6 +18,19 @@ const addCommentController = async (req, res) => {
   }
 };
 
+const getAllCommentController = async (req, res) => {
+  const postId = req.params?.id;
+  if (!postId) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  try {
+    const comment = await commentService.getAllCommentServices(postId);
+    return res.status(200).json(comment);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 const updateCommentController = async (req, res) => {
   const commentId = req.params?.id;
   const { senderId, content } = req.body;
@@ -71,6 +84,7 @@ const likeCommentController = async (req, res) => {
 module.exports = {
   addCommentController,
   updateCommentController,
+  getAllCommentController,
   deleteCommentController,
   likeCommentController,
 };
