@@ -1,6 +1,4 @@
 const postService = require("../services/post");
-const User = require("../models/user");
-const Post = require("../models/post");
 
 const addPostController = async (req, res) => {
   const { senderId, name, content } = req.body;
@@ -8,10 +6,6 @@ const addPostController = async (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
   try {
-    const sender = await User.findById(senderId);
-    if (!sender) {
-      return res.status(400).json({ error: "Sender not found" });
-    }
     const post = await postService.addPostServices({
       senderId,
       name,
@@ -19,7 +13,7 @@ const addPostController = async (req, res) => {
     });
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -28,21 +22,20 @@ const getAllPostController = async (req, res) => {
     const post = await postService.getPostService("all");
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json({ error: error.message });
   }
 };
 
 const getPostByIdController = async (req, res) => {
-  const postId = req.query.id;
+  const postId = req.params?.id;
   if (!postId) {
     return res.status(400).json({ error: "PostId is missing" });
   }
   try {
     const post = await postService.getPostService(postId);
-    console.log(post);
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -52,22 +45,15 @@ const updatePostController = async (req, res) => {
   if (!name || !content || !postId) {
     return res.status(400).json({ error: "Missing required fields" });
   }
-
-  const post = await Post.findById(postId);
-
-  if (!post) {
-    return res.status(400).json({ error: "Post not found" });
-  }
-
   try {
     const post = await postService.editPostService({ postId, name, content });
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json({ error: error.message });
   }
 };
 
-const deleteController = async (req, res) => {
+const deletePostController = async (req, res) => {
   const postId = req.params?.id;
   if (!postId) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -77,7 +63,36 @@ const deleteController = async (req, res) => {
     const post = await postService.deletePostService(postId);
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+const sharePostController = async (req, res) => {
+  const { senderId, postId } = req.body;
+  if (!senderId || !postId) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const post = await postService.sharePostService({ senderId, postId });
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+const likePostController = async (req, res) => {
+  const postId = req.params?.id;
+  const { senderId } = req.body;
+  if (!postId || !senderId) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const post = await postService.likePostService({ postId, senderId });
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -86,5 +101,7 @@ module.exports = {
   getAllPostController,
   getPostByIdController,
   updatePostController,
-  deleteController,
+  deletePostController,
+  sharePostController,
+  likePostController,
 };

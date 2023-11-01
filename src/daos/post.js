@@ -24,9 +24,6 @@ const addPost = async ({ senderId, name, content }) => {
     senderId,
     name,
     content,
-    like: [],
-    comment: [],
-    share: 0,
   });
   return post;
 };
