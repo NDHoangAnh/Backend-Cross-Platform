@@ -33,8 +33,7 @@ const verifyOTPService = async (email, otp) => {
       errMsg: "Email not found or have been verified",
     };
   }
-
-  if (checkUser.otpRegister === otp) {
+  if (checkUser.otpRegister == otp) {
     await userDaos.updateUser({ email }, { verified: true, otpRegister: null });
     return true;
   }
