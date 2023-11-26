@@ -5,7 +5,7 @@ const editUserController = async (req, res) => {
   const { error } = validate.validateEditUser(req.body);
   if (error) {
     const errMsg = error.details[0].message;
-    return res.json({ errMsg });
+    return res.status(400).json({ errMsg });
   }
 
   const result = await userService.editUserService(req.body);
@@ -16,7 +16,7 @@ const editPasswordController = async (req, res) => {
   const { error } = validate.validateEditPass(req.body);
   if (error) {
     const errMsg = error.details[0].message;
-    return res.json({ errMsg });
+    return res.status(400).json({ errMsg });
   }
 
   const result = await userService.editPassService(req.body);
