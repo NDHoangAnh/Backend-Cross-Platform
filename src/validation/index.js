@@ -45,9 +45,22 @@ const validateEditPass = (data) => {
   return editPassSchema.validate(data);
 };
 
+const validateAddTimeline = (data) => {
+  const timelineSchema = Joi.object({
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    label: Joi.string().required(),
+  });
+
+  return timelineSchema.validate(data);
+};
+
 module.exports = {
   validateCreateUser,
   validateLogin,
   validateEditUser,
   validateEditPass,
+  validateAddTimeline,
 };

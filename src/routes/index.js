@@ -5,6 +5,7 @@ const userController = require("../controllers/user");
 const adminController = require("../controllers/admin");
 const postController = require("../controllers/post");
 const commentController = require("../controllers/comment");
+const timelineController = require("../controllers/timeline");
 
 const router = express.Router();
 
@@ -51,5 +52,11 @@ router.get(
 );
 router.delete("/comment/delete/:id", commentController.deleteCommentController);
 router.put("/comment/like/:id", commentController.likeCommentController);
+
+// timeline
+router.post(
+  "/timeline/create-timeline",
+  timelineController.addTimelineController
+);
 
 module.exports = router;

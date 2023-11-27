@@ -6,7 +6,7 @@ const registerController = async (req, res) => {
   const { error } = validate.validateCreateUser(req.body);
   if (error) {
     const errMsg = error.details[0].message;
-    return res.status(400).json({ errMsg });
+    return res.json({ errMsg });
   }
 
   const newUser = await authService.registerService({
@@ -21,7 +21,7 @@ const verifyOTPController = async (req, res) => {
   const { email, otp } = req.body;
 
   if (!otp || !email) {
-    return res.status(400).json({
+    return res.json({
       errMsg: "Please enter otp or email",
     });
   }
@@ -35,7 +35,7 @@ const loginController = async (req, res) => {
   const { error } = validate.validateLogin(req.body);
   if (error) {
     const errMsg = error.details[0].message;
-    return res.status(400).json({ errMsg });
+    return res.json({ errMsg });
   }
   const user = await authService.loginService(email, password);
   return res.json(user);
@@ -44,7 +44,7 @@ const loginController = async (req, res) => {
 const requestChangePassController = async (req, res) => {
   const { email } = req.body;
   if (!email) {
-    return res.status(400).json({
+    return res.json({
       errMsg: "Please enter your email",
     });
   }
@@ -56,7 +56,7 @@ const requestChangePassController = async (req, res) => {
 const resetPasswordController = async (req, res) => {
   const { email, otp } = req.body;
   if (!email || !otp) {
-    return res.status(400).json({
+    return res.json({
       errMsg: "Please enter your email or otp",
     });
   }
