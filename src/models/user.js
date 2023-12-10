@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   otpRegister: Number,
   verified: Boolean,
   otpForgotPassword: Number,
+  role: String,
 });
 
 const User = mongoose.model("User", userSchema);

@@ -45,16 +45,103 @@ const validateEditPass = (data) => {
   return editPassSchema.validate(data);
 };
 
-const validateAddTimeline = (data) => {
-  const timelineSchema = Joi.object({
-    startDate: Joi.string().required(),
-    endDate: Joi.string().required(),
+const validateAddTarget = (data) => {
+  const targetSchema = Joi.object({
+    userId: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string().required(),
-    label: Joi.string().required(),
+    targetPoint: Joi.number(),
   });
 
-  return timelineSchema.validate(data);
+  return targetSchema.validate(data);
+};
+
+const validateEditTarget = (data) => {
+  const targetSchema = Joi.object({
+    targetId: Joi.string().required(),
+    name: Joi.string(),
+    description: Joi.string(),
+    targetPoint: Joi.number(),
+    realPoint: Joi.number(),
+    status: Joi.bool(),
+  });
+
+  return targetSchema.validate(data);
+};
+
+const validateAddClass = (data) => {
+  const classSchema = Joi.object({
+    teacherId: Joi.string().required(),
+    name: Joi.string().required(),
+    studentEmail: Joi.array(),
+    startTime: Joi.date().required(),
+    endTime: Joi.date().required(),
+    numOfWeek: Joi.number().required(),
+  });
+
+  return classSchema.validate(data);
+};
+
+const validateEditClass = (data) => {
+  const classSchema = Joi.object({
+    classId: Joi.string().required(),
+    name: Joi.string(),
+    studentEmail: Joi.array(),
+    startTime: Joi.date(),
+    endTime: Joi.date(),
+    activity: Joi.array(),
+  });
+
+  return classSchema.validate(data);
+};
+
+const validateAddActivity = (data) => {
+  const activitySchema = Joi.object({
+    classId: Joi.string().required(),
+    type: Joi.string().required(),
+    name: Joi.string().required(),
+    content: Joi.string().required(),
+    time: Joi.date(),
+  });
+
+  return activitySchema.validate(data);
+};
+
+const validateEditActivity = (data) => {
+  const activitySchema = Joi.object({
+    activityId: Joi.string().required(),
+    type: Joi.string(),
+    name: Joi.string(),
+    content: Joi.string(),
+    time: Joi.date(),
+  });
+
+  return activitySchema.validate(data);
+};
+
+const validateAddPlan = (data) => {
+  const planSchema = Joi.object({
+    name: Joi.string().required(),
+    description: Joi.string(),
+    startTime: Joi.date().required(),
+    endTime: Joi.date().required(),
+    isRepeatedByWeek: Joi.bool(),
+  });
+
+  return planSchema.validate(data);
+};
+
+const validateEditPlan = (data) => {
+  const planSchema = Joi.object({
+    planId: Joi.string().required(),
+    name: Joi.string(),
+    description: Joi.string(),
+    startTime: Joi.date(),
+    endTime: Joi.date(),
+    isRepeatedByWeek: Joi.bool(),
+  });
+
+  return planSchema.validate(data);
 };
 
 module.exports = {
@@ -62,5 +149,12 @@ module.exports = {
   validateLogin,
   validateEditUser,
   validateEditPass,
-  validateAddTimeline,
+  validateAddTarget,
+  validateEditTarget,
+  validateAddClass,
+  validateEditClass,
+  validateAddActivity,
+  validateEditActivity,
+  validateAddPlan,
+  validateEditPlan,
 };
