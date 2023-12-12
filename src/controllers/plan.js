@@ -43,8 +43,21 @@ const deletePlanController = async (req, res) => {
   }
 };
 
+const getPlanDetailController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await planService.getPlanDetailService(id);
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({
+      errMsg: error.message,
+    });
+  }
+};
+
 module.exports = {
   addPlanController,
   editPlanController,
   deletePlanController,
+  getPlanDetailController,
 };

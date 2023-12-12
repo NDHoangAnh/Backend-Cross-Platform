@@ -1,5 +1,7 @@
 const classDaos = require("../daos/klass");
 const userDaos = require("../daos/user");
+const generateRandomString = require("../utils/randomString");
+const scheduleService = require("./schedule");
 
 const addClassService = async (data) => {
   const { startTime, endTime, numOfWeek } = data;
@@ -13,9 +15,44 @@ const addClassService = async (data) => {
     );
     duration.push([_startTime, _endTime]);
   }
-  const dataClass = { ...data, duration };
+  const code = generateRandomString(6);
+  const dataClass = { ...data, duration, code };
   const newClass = await classDaos.addClass(dataClass);
   return newClass;
+};
+
+const enrollClassByCodeService = async (code, userId) => {
+  const klass = await classDaos.findClass({ code });
+  if (klass) {
+    const user = await userDaos.findUser({ _id: userId });
+    if (user && !klass.studentId.includes(user?._id)) {
+      // update class
+      klass.studentId.push(userId);
+      await klass.save();
+      // update schedule
+      const schedule = await scheduleService.checkScheduleService(userId);
+      if (schedule) {
+        schedule.klass.push(klass?._id);
+        await schedule.save();
+      } else {
+        await scheduleService.addScheduleService({
+          userId,
+          klass: [klass?._id],
+        });
+      }
+      return {
+        msg: "Enroll class successfully",
+      };
+    } else {
+      return {
+        errMsg: "User not found or have been enrolled class before",
+      };
+    }
+  }
+
+  return {
+    errMsg: "Class not found",
+  };
 };
 
 const updateClassService = async (data) => {
@@ -91,4 +128,5 @@ module.exports = {
   getStudentClassService,
   getTeacherClassService,
   getDetailClassService,
+  enrollClassByCodeService,
 };

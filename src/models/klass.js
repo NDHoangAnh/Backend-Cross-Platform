@@ -6,9 +6,11 @@ const klassSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    studentEmail: {
-      type: [String],
+    studentId: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
     },
+    code: String,
     name: String,
     startTime: Date,
     endTime: Date,

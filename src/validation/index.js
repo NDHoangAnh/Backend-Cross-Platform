@@ -73,7 +73,6 @@ const validateAddClass = (data) => {
   const classSchema = Joi.object({
     teacherId: Joi.string().required(),
     name: Joi.string().required(),
-    studentEmail: Joi.array(),
     startTime: Joi.date().required(),
     endTime: Joi.date().required(),
     numOfWeek: Joi.number().required(),
@@ -86,7 +85,6 @@ const validateEditClass = (data) => {
   const classSchema = Joi.object({
     classId: Joi.string().required(),
     name: Joi.string(),
-    studentEmail: Joi.array(),
     startTime: Joi.date(),
     endTime: Joi.date(),
     activity: Joi.array(),
@@ -121,6 +119,7 @@ const validateEditActivity = (data) => {
 
 const validateAddPlan = (data) => {
   const planSchema = Joi.object({
+    userId: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string(),
     startTime: Joi.date().required(),
@@ -144,6 +143,14 @@ const validateEditPlan = (data) => {
   return planSchema.validate(data);
 };
 
+const validateEnrollClass = (data) => {
+  const enrollSchema = Joi.object({
+    code: Joi.string().required(),
+    userId: Joi.string().required(),
+  });
+  return enrollSchema.validate(data);
+};
+
 module.exports = {
   validateCreateUser,
   validateLogin,
@@ -157,4 +164,5 @@ module.exports = {
   validateEditActivity,
   validateAddPlan,
   validateEditPlan,
+  validateEnrollClass,
 };

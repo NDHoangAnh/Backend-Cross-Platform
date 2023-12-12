@@ -10,6 +10,10 @@ const scheduleSchema = new mongoose.Schema(
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Plan",
     },
+    klass: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Klass",
+    },
   },
   {
     timestamps: true,

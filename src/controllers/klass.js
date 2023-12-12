@@ -83,6 +83,23 @@ const getDetailClassController = async (req, res) => {
   }
 };
 
+const enrollClassController = async (req, res) => {
+  try {
+    const { error } = validate.validateEnrollClass(req.body);
+    if (error) {
+      const errMsg = error.details[0].message;
+      return res.json({ errMsg });
+    }
+    const { code, userId } = req.body;
+    const result = await classService.enrollClassByCodeService(code, userId);
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({
+      errMsg: error.message,
+    });
+  }
+};
+
 module.exports = {
   addClassController,
   updateClassController,
@@ -90,4 +107,5 @@ module.exports = {
   getListClassStudentController,
   getListClassTeacherController,
   getDetailClassController,
+  enrollClassController,
 };

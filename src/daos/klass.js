@@ -8,6 +8,7 @@ const findClass = async (condition) => {
 const getDetailClass = async (id) => {
   const klass = await Klass.findById(id)
     .populate({ path: "teacherId", select: "username email" })
+    .populate({ path: "studentId", select: "username email" })
     .populate("activity");
   return klass;
 };
@@ -33,7 +34,7 @@ const deleteClass = async (id) => {
 
 const addClass = async ({
   teacherId,
-  studentEmail,
+  code,
   name,
   startTime,
   endTime,
@@ -41,7 +42,7 @@ const addClass = async ({
 }) => {
   const klass = await Klass.create({
     teacherId,
-    studentEmail,
+    code,
     name,
     startTime,
     endTime,

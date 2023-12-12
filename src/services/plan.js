@@ -1,7 +1,20 @@
 const planDaos = require("../daos/plan");
+const scheduleService = require("./schedule");
 
 const addPlanService = async (data) => {
+  const { userId } = data;
   const newPlan = await planDaos.addPlan(data);
+  const checkSchedule = await scheduleService.checkScheduleService(userId);
+  if (checkSchedule) {
+    checkSchedule.plans.push(newPlan?._id);
+    await checkSchedule.save();
+  } else {
+    await scheduleService.addScheduleService({
+      userId,
+      plans: [newPlan?._id],
+    });
+  }
+
   return newPlan;
 };
 
@@ -32,4 +45,20 @@ const deletePlanService = async (planId) => {
   };
 };
 
-module.exports = { addPlanService, editPlanService, deletePlanService };
+const getPlanDetailService = async (planId) => {
+  const plan = await planDaos.findPlan({ _id: planId });
+  if (plan) {
+    return plan;
+  }
+
+  return {
+    errMsg: "Plan not found",
+  };
+};
+
+module.exports = {
+  addPlanService,
+  editPlanService,
+  deletePlanService,
+  getPlanDetailService,
+};

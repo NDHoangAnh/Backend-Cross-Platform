@@ -9,6 +9,7 @@ const targetController = require("../controllers/target");
 const classController = require("../controllers/klass");
 const actitvityController = require("../controllers/activity");
 const planController = require("../controllers/plan");
+const scheduleController = require("../controllers/schedule");
 
 const router = express.Router();
 
@@ -70,6 +71,7 @@ router.delete("/class/delete/:id", classController.deleteClassController);
 router.get("/class/teacher/:id", classController.getListClassTeacherController);
 router.get("/class/student", classController.getListClassStudentController);
 router.get("/class/detail/:id", classController.getDetailClassController);
+router.post("/class/enroll", classController.enrollClassController);
 
 // activity
 router.post("/activity/add", actitvityController.addActivityController);
@@ -83,5 +85,9 @@ router.delete(
 router.post("/plan/add", planController.addPlanController);
 router.put("/plan/edit", planController.editPlanController);
 router.delete("/plan/delete/:id", planController.deletePlanController);
+router.get("/plan/:id", planController.getPlanDetailController);
+
+// schedule
+router.get("/schedule/user/:id", scheduleController.getScheduleController);
 
 module.exports = router;
