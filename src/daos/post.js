@@ -5,8 +5,8 @@ const findPost = async (condition) => {
   return post;
 };
 
-const getListPost = async () => {
-  const listPost = await Post.find({});
+const getListPost = async (data) => {
+  const listPost = await Post.find(data);
   return listPost;
 };
 

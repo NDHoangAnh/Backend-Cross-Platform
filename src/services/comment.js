@@ -38,7 +38,6 @@ const getAllCommentServices = async (postId) => {
       let cmt = await commentDaos.findComment({ _id: comment });
       listComments.push(cmt);
     }
-    console.log(listComments.length);
     listComments.length > 0 ? listComments.shift() : "";
 
     return listComments;

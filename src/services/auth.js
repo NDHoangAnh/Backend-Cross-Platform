@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const userDaos = require("../daos/user");
 const genOTP = require("../utils/genOTP");
 const sendMail = require("../utils/sendEmail");
+const jwt = require("jsonwebtoken");
+const configs = require("../configs/index");
 
 const registerService = async ({ email, password, username }) => {
   const checkUser = await userDaos.findUser({ email });
@@ -48,7 +50,12 @@ const loginService = async (email, password) => {
     const checkPassword = await bcrypt.compare(password, checkUser.password);
     if (checkPassword) {
       const user = await userDaos.updateUser({ email }, { login: true });
-      return user;
+      const role = user.role;
+      const accessToken = jwt.sign(
+        { email, role },
+        configs.ACCESS_TOKEN_SECRET
+      );
+      return { user, accessToken };
     }
     return {
       errMsg: "Wrong password",

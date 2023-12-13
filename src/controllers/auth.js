@@ -38,6 +38,7 @@ const loginController = async (req, res) => {
     return res.json({ errMsg });
   }
   const user = await authService.loginService(email, password);
+
   return res.json(user);
 };
 

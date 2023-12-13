@@ -14,6 +14,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
     comments: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Comment",

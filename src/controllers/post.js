@@ -6,11 +6,12 @@ const addPostController = async (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
   try {
-    const post = await postService.addPostServices({
+    const post = await postService.addPostService({
       senderId,
       name,
       content,
     });
+
     return res.status(200).json(post);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -19,7 +20,17 @@ const addPostController = async (req, res) => {
 
 const getAllPostController = async (req, res) => {
   try {
-    const post = await postService.getPostService("all");
+    const post = await postService.getAllPostService({ isApproved: true });
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+const getPersonalPostController = async (req, res) => {
+  try {
+    const senderId = req.params.id;
+    const post = await postService.getAllPostService({ senderId });
     return res.status(200).json(post);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -98,6 +109,7 @@ const likePostController = async (req, res) => {
 
 module.exports = {
   addPostController,
+  getPersonalPostController,
   getAllPostController,
   getPostByIdController,
   updatePostController,

@@ -5,6 +5,11 @@ const findUser = async (condition) => {
   return user;
 };
 
+const findUserId = async (condition) => {
+  const user = await User.findById(condition);
+  return user;
+};
+
 const getListUser = async () => {
   const listUser = await User.find({});
   return listUser;
@@ -29,4 +34,11 @@ const addUser = async ({ email, username, hashPassword, otp }) => {
   return user;
 };
 
-module.exports = { findUser, updateUser, deleteUser, addUser, getListUser };
+module.exports = {
+  findUser,
+  findUserId,
+  updateUser,
+  deleteUser,
+  addUser,
+  getListUser,
+};
