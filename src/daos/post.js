@@ -1,12 +1,21 @@
 const Post = require("../models/post");
+const User = require("../models/user");
 
 const findPost = async (condition) => {
   const post = await Post.findOne(condition);
+  const user = await User.findOne({ _id: post.senderId });
+  post._doc.senderName = user.username;
+  post._doc.senderAvatar = user.avatar;
   return post;
 };
 
 const getListPost = async (data) => {
-  const listPost = await Post.find(data);
+  let listPost = await Post.find(data);
+  for (let i in listPost) {
+    const user = await User.findOne({ _id: listPost[i].senderId });
+    listPost[i]._doc.senderName = user.username;
+    listPost[i]._doc.senderAvatar = user.avatar;
+  }
   return listPost;
 };
 

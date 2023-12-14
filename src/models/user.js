@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     otpRegister: Number,
     verified: Boolean,
     otpForgotPassword: Number,
+    avatar: String,
     role: {
       type: String,
       default: "User",
