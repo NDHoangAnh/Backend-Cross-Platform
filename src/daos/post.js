@@ -1,12 +1,18 @@
 const Post = require("../models/post");
 
 const findPost = async (condition) => {
-  const post = await Post.findOne(condition);
+  const post = await Post.findOne(condition).populate({
+    path: "senderId",
+    select: "username avatar",
+  });
   return post;
 };
 
-const getListPost = async () => {
-  const listPost = await Post.find({});
+const getListPost = async (condition) => {
+  const listPost = await Post.find(condition).populate({
+    path: "senderId",
+    select: "username avatar",
+  });
   return listPost;
 };
 
@@ -19,12 +25,8 @@ const deletePost = async (postId) => {
   await Post.findByIdAndDelete(postId);
 };
 
-const addPost = async ({ senderId, name, content }) => {
-  const post = await Post.create({
-    senderId,
-    name,
-    content,
-  });
+const addPost = async ({ senderId, content, imageUrl }) => {
+  const post = await Post.create({ senderId, content, imageUrl });
   return post;
 };
 

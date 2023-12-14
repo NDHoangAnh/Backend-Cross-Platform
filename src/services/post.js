@@ -1,10 +1,8 @@
 const postDaos = require("../daos/post");
 const userDaos = require("../daos/user");
-// const User = require("../models/user");
 
-const addPostServices = async (data) => {
+const addPostService = async (data) => {
   const { senderId } = data;
-  // const sender = await User.findById(senderId);
   const sender = await userDaos.findUser({ _id: senderId });
   if (!sender) {
     throw new Error("Sender not found");
@@ -13,13 +11,13 @@ const addPostServices = async (data) => {
   return post;
 };
 
-const getPostService = async (data) => {
-  if (data === "all") {
-    const listPost = await postDaos.getListPost();
-    return listPost;
-  }
+const getAllPostService = async (data) => {
+  const listPost = await postDaos.getListPost(data);
+  return listPost;
+};
 
-  const post = await postDaos.findPost({ _id: data });
+const getPostService = async (postId) => {
+  const post = await postDaos.findPost({ _id: postId });
   if (post) {
     return post;
   }
@@ -51,7 +49,6 @@ const editPostService = async (data) => {
 const sharePostService = async (data) => {
   const { senderId, postId } = data;
 
-  // const sender = await User.findById(senderId);
   const sender = await userDaos.findUser({ _id: senderId });
   if (!sender) {
     throw new Error("Sender not found");
@@ -77,7 +74,6 @@ const sharePostService = async (data) => {
 const likePostService = async (data) => {
   const { postId, senderId } = data;
 
-  // const sender = await User.findById(senderId);
   const sender = await userDaos.findUser({ _id: senderId });
   if (!sender) {
     throw new Error("Sender not found");
@@ -99,7 +95,8 @@ const likePostService = async (data) => {
 };
 
 module.exports = {
-  addPostServices,
+  addPostService,
+  getAllPostService,
   getPostService,
   deletePostService,
   editPostService,

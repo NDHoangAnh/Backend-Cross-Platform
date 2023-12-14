@@ -1,5 +1,4 @@
 const express = require("express");
-
 const authController = require("../controllers/auth");
 const userController = require("../controllers/user");
 const adminController = require("../controllers/admin");
@@ -26,14 +25,31 @@ router.put("/user/editPass", userController.editPasswordController);
 
 // admin
 router.get("/admin/getUser", adminController.adminGetUserController);
+
+router.put("/admin/changePassword", adminController.adminChangePassController);
+router.put("/admin/changeRole", adminController.changeRoleController);
+
 router.delete(
   "/admin/deleteUser/:id",
   adminController.adminDeleteUserController
 );
 
+// admin - forum
+router.get("/admin/getListPost", adminController.getListPostController);
+
+router.put("/admin/approvePost/:id", adminController.approvePostController);
+
+router.delete("/admin/declinePost/:id", adminController.declinePostController);
+
 // post
 router.post("/post/add", postController.addPostController);
 router.get("/post/getAllPost", postController.getAllPostController);
+
+router.get(
+  "/post/getPersonalPost/:id",
+  postController.getPersonalPostController
+);
+
 router.get("/post/getPost/:id", postController.getPostByIdController);
 router.put("/post/update/:id", postController.updatePostController);
 router.delete("/post/delete/:id", postController.deletePostController);
@@ -42,20 +58,20 @@ router.delete("/post/delete/:id", postController.deletePostController);
 router.put("/post/like/:id", postController.likePostController);
 
 // post share
-router.post("/post/share", postController.sharePostController);
+// router.post("/post/share", postController.sharePostController);
 
 // comment
-router.put("/post/addComment/:id", commentController.addCommentController);
+router.put("/post/addComment", commentController.addCommentController);
 router.put(
   "/comment/updateComment/:id",
   commentController.updateCommentController
 );
 router.get(
-  "/comment/getCommentOnPost/:id",
-  commentController.getAllCommentController
+  "/post/getComment/:id",
+  commentController.getListCommentOfPostController
 );
 router.delete("/comment/delete/:id", commentController.deleteCommentController);
-router.put("/comment/like/:id", commentController.likeCommentController);
+// router.put("/comment/like/:id", commentController.likeCommentController);
 
 // target
 router.post("/target/addTarget", targetController.addTargetController);

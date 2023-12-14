@@ -1,28 +1,38 @@
 const postService = require("../services/post");
 
 const addPostController = async (req, res) => {
-  const { senderId, name, content } = req.body;
-  if (!senderId || !name || !content) {
+  const { senderId, content, imageUrl } = req.body;
+  if (!senderId || !content || !imageUrl) {
     return res.status(400).json({ error: "Missing required fields" });
   }
   try {
-    const post = await postService.addPostServices({
+    const post = await postService.addPostService({
       senderId,
-      name,
       content,
+      imageUrl,
     });
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
 const getAllPostController = async (req, res) => {
   try {
-    const post = await postService.getPostService("all");
+    const post = await postService.getAllPostService({ isApproved: true });
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ errMsg: error.message });
+  }
+};
+
+const getPersonalPostController = async (req, res) => {
+  try {
+    const senderId = req.params.id;
+    const post = await postService.getAllPostService({ senderId });
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(500).json({ errMsg: error.message });
   }
 };
 
@@ -35,7 +45,7 @@ const getPostByIdController = async (req, res) => {
     const post = await postService.getPostService(postId);
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ errMsg: error.message });
   }
 };
 
@@ -49,7 +59,7 @@ const updatePostController = async (req, res) => {
     const post = await postService.editPostService({ postId, name, content });
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ errMsg: error.message });
   }
 };
 
@@ -60,10 +70,10 @@ const deletePostController = async (req, res) => {
   }
 
   try {
-    const post = await postService.deletePostService(postId);
-    return res.status(200).json(post);
+    const result = await postService.deletePostService(postId);
+    return res.status(200).json(result);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ errMsg: error.message });
   }
 };
 
@@ -77,7 +87,7 @@ const sharePostController = async (req, res) => {
     const post = await postService.sharePostService({ senderId, postId });
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ errMsg: error.message });
   }
 };
 
@@ -92,12 +102,13 @@ const likePostController = async (req, res) => {
     const post = await postService.likePostService({ postId, senderId });
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
 module.exports = {
   addPostController,
+  getPersonalPostController,
   getAllPostController,
   getPostByIdController,
   updatePostController,

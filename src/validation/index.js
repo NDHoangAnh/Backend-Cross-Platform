@@ -24,6 +24,7 @@ const validateEditUser = (data) => {
   const editUserSchema = Joi.object({
     username: Joi.string(),
     email: Joi.string().email().required().invalid(configs.EMAIL_ADMIN),
+    avatar: Joi.string(),
     password: Joi.any().forbidden(),
     login: Joi.any().forbidden(),
     otpRegister: Joi.any().forbidden(),
@@ -151,6 +152,24 @@ const validateEnrollClass = (data) => {
   return enrollSchema.validate(data);
 };
 
+const validateAdminChangePass = (data) => {
+  const schemaData = Joi.object({
+    userId: Joi.string().required(),
+    password: Joi.string().required(),
+  });
+
+  return schemaData.validate(data);
+};
+
+const validateAdminChangeRole = (data) => {
+  const schemaData = Joi.object({
+    userId: Joi.string().required(),
+    role: Joi.string().required(),
+  });
+
+  return schemaData.validate(data);
+};
+
 module.exports = {
   validateCreateUser,
   validateLogin,
@@ -165,4 +184,6 @@ module.exports = {
   validateAddPlan,
   validateEditPlan,
   validateEnrollClass,
+  validateAdminChangePass,
+  validateAdminChangeRole,
 };

@@ -1,24 +1,23 @@
 const commentService = require("../services/comment");
 
 const addCommentController = async (req, res) => {
-  const postId = req.params?.id;
-  const { senderId, content } = req.body;
+  const { senderId, content, postId } = req.body;
   if (!postId || !senderId || !content) {
-    return res.status(400).json({ error: "Missing required fields" });
+    return res.status(400).json({ errMsg: "Missing required fields" });
   }
   try {
-    const post = await commentService.addCommentServices({
+    const comment = await commentService.addCommentServices({
       postId,
       senderId,
       content,
     });
-    return res.status(200).json(post);
+    return res.status(200).json(comment);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ errMsg: error.message });
   }
 };
 
-const getAllCommentController = async (req, res) => {
+const getListCommentOfPostController = async (req, res) => {
   const postId = req.params?.id;
   if (!postId) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -27,7 +26,7 @@ const getAllCommentController = async (req, res) => {
     const comment = await commentService.getAllCommentServices(postId);
     return res.status(200).json(comment);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -45,7 +44,7 @@ const updateCommentController = async (req, res) => {
     });
     return res.status(200).json(updateComment);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -56,10 +55,10 @@ const deleteCommentController = async (req, res) => {
   }
 
   try {
-    const comment = await commentService.deleteCommentService(commentId);
-    return res.status(200).json(comment);
+    const result = await commentService.deleteCommentService(commentId);
+    return res.status(200).json(result);
   } catch (error) {
-    return res.status(400).json({ error: error });
+    return res.status(500).json({ error: error });
   }
 };
 
@@ -84,7 +83,7 @@ const likeCommentController = async (req, res) => {
 module.exports = {
   addCommentController,
   updateCommentController,
-  getAllCommentController,
+  getListCommentOfPostController,
   deleteCommentController,
   likeCommentController,
 };

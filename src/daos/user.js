@@ -29,4 +29,10 @@ const addUser = async ({ email, username, hashPassword, otp }) => {
   return user;
 };
 
-module.exports = { findUser, updateUser, deleteUser, addUser, getListUser };
+module.exports = {
+  findUser,
+  updateUser,
+  deleteUser,
+  addUser,
+  getListUser,
+};
