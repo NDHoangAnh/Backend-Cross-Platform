@@ -33,7 +33,7 @@ const getUserService = async (condition) => {
 };
 
 const deleteUserService = async (userId) => {
-  const checkUser = await userDaos.findUserId(userId);
+  const checkUser = await userDaos.findUser({ _id: userId });
   if (checkUser) {
     await userDaos.deleteUser(userId);
     return {
@@ -75,7 +75,7 @@ const changeRoleService = async (data) => {
 
 const changePassService = async (data) => {
   const { userId, password } = data;
-  const checkUser = await userDaos.findUserId(userId);
+  const checkUser = await userDaos.findUser({ _id: userId });
   if (checkUser) {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
@@ -94,13 +94,15 @@ const getListPostService = async (data) => {
   return listPost;
 };
 
-const approvePostService = async (data) => {
-  const post = await postDaos.findPost({ _id: data });
+const approvePostService = async (postId) => {
+  const post = await postDaos.findPost({ _id: postId });
   if (!post) {
-    throw new Error("Not found Post");
+    return {
+      errMsg: "Post not found",
+    };
   }
   const editPost = await postDaos.updatePost(
-    { _id: data },
+    { _id: postId },
     { isApproved: true }
   );
   return editPost;
@@ -109,11 +111,13 @@ const approvePostService = async (data) => {
 const declinePostService = async (postId) => {
   const checkPost = await postDaos.findPost({ _id: postId });
   if (!checkPost) {
-    throw new Error("Not found Post");
+    return {
+      errMsg: "Post not found",
+    };
   }
   await postDaos.deletePost(postId);
   return {
-    msg: "Delete post successfully",
+    msg: "Decline post successfully",
   };
 };
 

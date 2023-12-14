@@ -1,25 +1,39 @@
 const adminService = require("../services/admin");
+const validate = require("../validation/index");
 
 const adminAddUserController = async (req, res) => {};
 
 const changeRoleController = async (req, res) => {
-  const { userId, role } = req.body;
-  const user = await adminService.getUserService(userId);
-  if (user) {
-    const result = await adminService.changeRoleService({ userId, role });
-    return res.status(200).json(result);
+  try {
+    const { error } = validate.validateAdminChangeRole(req.body);
+    if (error) {
+      return res.json({
+        errMsg: error.details[0].message,
+      });
+    }
+    const result = await adminService.changeRoleService(req.body);
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({
+      errMsg: error.message,
+    });
   }
-  return res.status(400).json({ errMsg: "User not found" });
 };
 
-const changePassController = async (req, res) => {
-  const { userId, password } = req.body;
-  const user = await adminService.getUserService(userId);
-  if (user) {
-    const result = await adminService.changePassService({ userId, password });
-    return res.status(200).json(result);
+const adminChangePassController = async (req, res) => {
+  try {
+    const { error } = validate.validateAdminChangePass(req.body);
+    if (error) {
+      const errMsg = error.details[0].message;
+      return res.json({ errMsg });
+    }
+    const result = await adminService.changePassService(req.body);
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({
+      errMsg: error.message,
+    });
   }
-  return res.status(400).json({ errMsg: "User not found" });
 };
 
 const adminEditUserController = async (req, res) => {
@@ -35,19 +49,29 @@ const adminEditUserController = async (req, res) => {
 };
 
 const adminGetUserController = async (req, res) => {
-  const { condition } = req.query;
-  if (!condition || condition.toLowerCase() === "all") {
-    const result = await adminService.getUserService("all");
-    return res.status(200).json(result);
-  }
+  try {
+    const { condition } = req.query;
+    if (!condition || condition.toLowerCase() === "all") {
+      const result = await adminService.getUserService("all");
+      return res.status(200).json(result);
+    }
 
-  const result = await adminService.getUserService(condition);
-  return res.status(200).json(result);
+    const result = await adminService.getUserService(condition);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      errMsg: error.message,
+    });
+  }
 };
 
 const adminDeleteUserController = async (req, res) => {
-  const result = await adminService.deleteUserService(req.params.id);
-  return res.status(200).json(result);
+  try {
+    const result = await adminService.deleteUserService(req.params.id);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ errMsg: error.message });
+  }
 };
 
 const getListPostController = async (req, res) => {
@@ -56,24 +80,31 @@ const getListPostController = async (req, res) => {
 };
 
 const approvePostController = async (req, res) => {
-  const postId = req.params.id;
-
-  const result = await adminService.approvePostService(postId);
-  return res.status(200).json(result);
+  try {
+    const { id } = req.params;
+    const result = await adminService.approvePostService(id);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ errMsg: error.message });
+  }
 };
 
 const declinePostController = async (req, res) => {
-  const postId = req.params.id;
+  try {
+    const { id } = req.params;
 
-  const result = await adminService.declinePostService(postId);
-  return res.status(200).json(result);
+    const result = await adminService.declinePostService(id);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ errMsg: error.message });
+  }
 };
 
 module.exports = {
   declinePostController,
   approvePostController,
   getListPostController,
-  changePassController,
+  adminChangePassController,
   changeRoleController,
   adminAddUserController,
   adminEditUserController,

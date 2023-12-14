@@ -5,6 +5,14 @@ const findComment = async (condition) => {
   return comment;
 };
 
+const getListCommentOfPost = async (postId) => {
+  const listComments = await Comment.find({ postId }).populate({
+    path: "senderId",
+    select: "username avatar",
+  });
+  return listComments;
+};
+
 const updateComment = async (condition, data) => {
   const comment = await Comment.findOneAndUpdate(condition, data, {
     new: true,
@@ -16,10 +24,11 @@ const deleteComment = async (commentId) => {
   await Comment.findByIdAndDelete(commentId);
 };
 
-const addComment = async ({ senderId, content }) => {
+const addComment = async ({ postId, senderId, content }) => {
   const comment = await Comment.create({
     senderId,
     content,
+    postId,
   });
   return comment;
 };
@@ -29,4 +38,5 @@ module.exports = {
   updateComment,
   deleteComment,
   addComment,
+  getListCommentOfPost,
 };

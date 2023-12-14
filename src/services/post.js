@@ -16,8 +16,8 @@ const getAllPostService = async (data) => {
   return listPost;
 };
 
-const getPostService = async (data) => {
-  const post = await postDaos.findPost({ _id: data });
+const getPostService = async (postId) => {
+  const post = await postDaos.findPost({ _id: postId });
   if (post) {
     return post;
   }
