@@ -49,8 +49,8 @@ const deleteClassController = async (req, res) => {
 
 const getListClassStudentController = async (req, res) => {
   try {
-    const { email } = req.query;
-    const result = await classService.getStudentClassService(email);
+    const { id } = req.params;
+    const result = await classService.getStudentClassService(id);
     return res.json(result);
   } catch (error) {
     return res.status(500).json({

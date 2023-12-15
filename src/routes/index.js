@@ -85,7 +85,7 @@ router.post("/class/add", classController.addClassController);
 router.put("/class/edit", classController.updateClassController);
 router.delete("/class/delete/:id", classController.deleteClassController);
 router.get("/class/teacher/:id", classController.getListClassTeacherController);
-router.get("/class/student", classController.getListClassStudentController);
+router.get("/class/student/:id", classController.getListClassStudentController);
 router.get("/class/detail/:id", classController.getDetailClassController);
 router.post("/class/enroll", classController.enrollClassController);
 

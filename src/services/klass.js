@@ -85,10 +85,10 @@ const deleteClassService = async (id) => {
   };
 };
 
-const getStudentClassService = async (studentEmail) => {
-  const student = await userDaos.findUser({ email: studentEmail });
+const getStudentClassService = async (studentId) => {
+  const student = await userDaos.findUser({ _id: studentId });
   if (student) {
-    const listClass = await classDaos.getListClassOfStudent(studentEmail);
+    const listClass = await classDaos.getListClassOfStudent(studentId);
     return listClass;
   }
 

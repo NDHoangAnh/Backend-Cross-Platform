@@ -18,8 +18,8 @@ const getListClassOfTeacher = async (teacherId) => {
   return listClass;
 };
 
-const getListClassOfStudent = async (studentEmail) => {
-  const listClass = await Klass.find({ studentEmail: { $in: [studentEmail] } });
+const getListClassOfStudent = async (studentId) => {
+  const listClass = await Klass.find({ studentId: { $in: [studentId] } });
   return listClass;
 };
 
