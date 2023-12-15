@@ -50,12 +50,7 @@ const loginService = async (email, password) => {
     const checkPassword = await bcrypt.compare(password, checkUser.password);
     if (checkPassword) {
       const user = await userDaos.updateUser({ email }, { login: true });
-      const role = user.role;
-      const accessToken = jwt.sign(
-        { email, role },
-        configs.ACCESS_TOKEN_SECRET
-      );
-      return { user, accessToken };
+      return user;
     }
     return {
       errMsg: "Wrong password",
