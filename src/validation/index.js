@@ -172,6 +172,16 @@ const validateAdminChangeRole = (data) => {
   return schemaData.validate(data);
 };
 
+const validateAddPost = (data) => {
+  const postSchema = Joi.object({
+    senderId: Joi.string().required(),
+    content: Joi.string().required(),
+    imageUrl: Joi.string(),
+  });
+
+  return postSchema.validate(data);
+};
+
 module.exports = {
   validateCreateUser,
   validateLogin,
@@ -188,4 +198,5 @@ module.exports = {
   validateEnrollClass,
   validateAdminChangePass,
   validateAdminChangeRole,
+  validateAddPost,
 };

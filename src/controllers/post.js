@@ -1,19 +1,18 @@
 const postService = require("../services/post");
+const validate = require("../validation/index");
 
 const addPostController = async (req, res) => {
-  const { senderId, content, imageUrl } = req.body;
-  if (!senderId || !content || !imageUrl) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
   try {
-    const post = await postService.addPostService({
-      senderId,
-      content,
-      imageUrl,
-    });
+    const { error } = validate.validateAddPost(req.body);
+    if (error) {
+      return res.json({
+        errMsg: error.details[0].message,
+      });
+    }
+    const post = await postService.addPostService(req.body);
     return res.status(200).json(post);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ errMsg: error.message });
   }
 };
 

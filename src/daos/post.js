@@ -9,10 +9,12 @@ const findPost = async (condition) => {
 };
 
 const getListPost = async (condition) => {
-  const listPost = await Post.find(condition).populate({
-    path: "senderId",
-    select: "username avatar",
-  });
+  const listPost = await Post.find(condition)
+    .populate({
+      path: "senderId",
+      select: "username avatar",
+    })
+    .select("-comments");
   return listPost;
 };
 

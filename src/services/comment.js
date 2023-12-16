@@ -2,30 +2,6 @@ const commentDaos = require("../daos/comment");
 const postDaos = require("../daos/post");
 const userDaos = require("../daos/user");
 
-// const addCommentServices = async (data) => {
-//   const { postId, senderId, content } = data;
-
-//   const sender = await userDaos.findUser({ _id: senderId });
-
-//   if (!sender) {
-//     throw new Error("Sender not found");
-//   }
-
-//   const post = await postDaos.findPost({ _id: postId });
-//   if (post) {
-//     const comment = await commentDaos.addComment({ senderId, content });
-//     const postComment = post.comments || [];
-//     postComment.push(comment._id);
-//     const updatePost = await postDaos.updatePost(
-//       { _id: postId },
-//       { comments: postComment }
-//     );
-//     return updatePost;
-//   } else {
-//     throw new Error("Not found Post");
-//   }
-// };
-
 const addCommentServices = async (data) => {
   const { postId, senderId, content } = data;
 
@@ -45,7 +21,7 @@ const addCommentServices = async (data) => {
 
 const getAllCommentServices = async (postId) => {
   const post = await postDaos.findPost({ _id: postId });
-  if (post) {
+  if (!post) {
     throw new Error("Not found Post");
   }
   const listComments = await commentDaos.getListCommentOfPost(postId);
