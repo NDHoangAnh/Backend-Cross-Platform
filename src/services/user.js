@@ -42,8 +42,9 @@ const editPassService = async (data) => {
 const getUserService = async (id) => {
   const user = await userDaos.findUser({ _id: id });
   if (user) {
-    const { username, login, email, avatar, role } = user;
-    return { username, login, email, avatar, role };
+    const { username, login, email, avatar, role, birthDate, address, phone } =
+      user;
+    return { username, login, email, avatar, role, birthDate, address, phone };
   }
   return {
     errMsg: "User not found",

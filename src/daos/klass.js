@@ -8,7 +8,7 @@ const findClass = async (condition) => {
 const getDetailClass = async (id) => {
   const klass = await Klass.findById(id)
     .populate({ path: "teacherId", select: "username email" })
-    .populate({ path: "studentId", select: "username email" })
+    .populate({ path: "studentId", select: "username email avatar" })
     .populate("activity");
   return klass;
 };

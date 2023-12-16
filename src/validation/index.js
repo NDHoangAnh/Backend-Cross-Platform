@@ -91,7 +91,6 @@ const validateEditClass = (data) => {
     name: Joi.string(),
     startTime: Joi.date(),
     endTime: Joi.date(),
-    activity: Joi.array(),
   });
 
   return classSchema.validate(data);
