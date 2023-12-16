@@ -23,4 +23,20 @@ const editPasswordController = async (req, res) => {
   return res.json(result);
 };
 
-module.exports = { editUserController, editPasswordController };
+const getUserByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await userService.getUserService(id);
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({
+      errMsg: error.message,
+    });
+  }
+};
+
+module.exports = {
+  editUserController,
+  editPasswordController,
+  getUserByIdController,
+};

@@ -22,6 +22,7 @@ router.post("/resetPass", authController.resetPasswordController);
 // user
 router.put("/user/edit", userController.editUserController);
 router.put("/user/editPass", userController.editPasswordController);
+router.get("/user/:id", userController.getUserByIdController);
 
 // admin
 router.get("/admin/getUser", adminController.adminGetUserController);

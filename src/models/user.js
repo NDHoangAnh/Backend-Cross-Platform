@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema(
     verified: Boolean,
     otpForgotPassword: Number,
     avatar: String,
+    birthDate: Date,
+    address: String,
+    phone: String,
     role: {
       type: String,
       default: "User",

@@ -39,4 +39,15 @@ const editPassService = async (data) => {
   };
 };
 
-module.exports = { editUserService, editPassService };
+const getUserService = async (id) => {
+  const user = await userDaos.findUser({ _id: id });
+  if (user) {
+    const { username, login, email, avatar, role } = user;
+    return { username, login, email, avatar, role };
+  }
+  return {
+    errMsg: "User not found",
+  };
+};
+
+module.exports = { editUserService, editPassService, getUserService };
