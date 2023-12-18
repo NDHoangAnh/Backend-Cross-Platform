@@ -49,13 +49,25 @@ const getPostByIdController = async (req, res) => {
 };
 
 const updatePostController = async (req, res) => {
-  const postId = req.params?.id;
-  const { name, content } = req.body;
-  if (!name || !content || !postId) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
+  // const postId = req.params?.id;
+  // const {  content } = req.body;
+  // if (!name || !content || !postId) {
+  //   return res.status(400).json({ error: "Missing required fields" });
+  // }
   try {
-    const post = await postService.editPostService({ postId, name, content });
+    const postId = req.params.id;
+    const { error } = validate.validateEditPost(req.body);
+    if (error) {
+      return res.status(400).json({
+        errMsg: error.details[0].message,
+      });
+    }
+    const { content, imageUrl } = req.body;
+    const post = await postService.editPostService({
+      postId,
+      content,
+      imageUrl,
+    });
     return res.status(200).json(post);
   } catch (error) {
     return res.status(500).json({ errMsg: error.message });

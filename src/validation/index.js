@@ -54,7 +54,7 @@ const validateAddTarget = (data) => {
     userId: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string().required(),
-    targetPoint: Joi.number(),
+    targetPoint: Joi.number().required(),
   });
 
   return targetSchema.validate(data);
@@ -182,6 +182,15 @@ const validateAddPost = (data) => {
   return postSchema.validate(data);
 };
 
+const validateEditPost = (data) => {
+  const postSchema = Joi.object({
+    content: Joi.string().required(),
+    imageUrl: Joi.string(),
+  });
+
+  return postSchema.validate(data);
+};
+
 module.exports = {
   validateCreateUser,
   validateLogin,
@@ -199,4 +208,5 @@ module.exports = {
   validateAdminChangePass,
   validateAdminChangeRole,
   validateAddPost,
+  validateEditPost,
 };
