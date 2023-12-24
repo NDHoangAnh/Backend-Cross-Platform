@@ -8,7 +8,7 @@ const addSchedule = async ({ userId, plans, klass }) => {
 const getDetailSchedule = async (condition) => {
   const schedule = await Schedule.findOne(condition)
     .populate("plans")
-    .populate({ path: "klass", select: "name startTime endTime" });
+    .populate({ path: "klass", select: "name startTime endTime duration" });
 
   return schedule;
 };
