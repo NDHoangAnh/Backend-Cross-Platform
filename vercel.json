@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "PORT": "8089",
+    "MONGO_URL": "mongodb+srv://hoanganhaxeno1:hoanganhdragontx01@crossplatform.s6rwm52.mongodb.net/?retryWrites=true&w=majority",
+    "EMAIL": "hoanganh.axe.no.1@gmail.com",
+    "PASS_EMAIL": "tqos yged gcll tpdp",
+    "EMAIL_ADMIN": "admin@gmail.com"
+  },
+  "routes": [{ "src": "/(.*)", "dest": "/src/index.js" }]
+}
