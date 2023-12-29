@@ -1,8 +1,16 @@
 const planDaos = require("../daos/plan");
+const validateTime = require("../utils/validateTime");
 const scheduleService = require("./schedule");
 
 const addPlanService = async (data) => {
-  const { userId } = data;
+  const { userId, startTime, endTime } = data;
+  const listTime = await scheduleService.getListTimeService(userId);
+  const validate = validateTime(startTime, endTime, listTime);
+  if (validate) {
+    return {
+      errMsg: "You have other plan in this time",
+    };
+  }
   const newPlan = await planDaos.addPlan(data);
   const checkSchedule = await scheduleService.checkScheduleService(userId);
   if (checkSchedule) {
