@@ -15,7 +15,7 @@ const getUserService = async (condition) => {
     }));
     return listUsers;
   }
-  const user = await userDaos.findUserId(condition);
+  const user = await userDaos.findUser({ _id: condition });
   if (user) {
     const result = {
       _id: user._id,
@@ -47,7 +47,7 @@ const deleteUserService = async (userId) => {
 
 const editUserService = async (data) => {
   const { id, username, password, role } = data;
-  const checkUser = await userDaos.findUserId(id);
+  const checkUser = await userDaos.findUser({ _id: userId });
   if (checkUser) {
     await userDaos.updateUser(id, username, password, role);
     return {
@@ -61,7 +61,7 @@ const editUserService = async (data) => {
 
 const changeRoleService = async (data) => {
   const { userId, role } = data;
-  const checkUser = await userDaos.findUserId(userId);
+  const checkUser = await userDaos.findUser({ _id: userId });
   if (checkUser) {
     await userDaos.updateUser({ _id: userId }, { role: role });
     return {
