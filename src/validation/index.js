@@ -54,6 +54,7 @@ const validateAddTarget = (data) => {
     userId: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string().required(),
+    realPoint: Joi.string().required(),
     targetPoint: Joi.number().required(),
   });
 

@@ -49,11 +49,6 @@ const getPostByIdController = async (req, res) => {
 };
 
 const updatePostController = async (req, res) => {
-  // const postId = req.params?.id;
-  // const {  content } = req.body;
-  // if (!name || !content || !postId) {
-  //   return res.status(400).json({ error: "Missing required fields" });
-  // }
   try {
     const postId = req.params.id;
     const { error } = validate.validateEditPost(req.body);

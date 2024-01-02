@@ -19,12 +19,19 @@ const deleteTarget = async (id) => {
   await Target.findByIdAndDelete(id);
 };
 
-const addTarget = async ({ name, description, targetPoint, userId }) => {
+const addTarget = async ({
+  name,
+  description,
+  targetPoint,
+  realPoint,
+  userId,
+}) => {
   const target = await Target.create({
     name,
     description,
     targetPoint,
     userId,
+    realPoint,
   });
   return target;
 };
