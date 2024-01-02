@@ -12,6 +12,7 @@ const getUserService = async (condition) => {
       login: user.login,
       role: user.role,
       verified: user.verified,
+      avatar: user.avatar,
     }));
     return listUsers;
   }
@@ -61,7 +62,7 @@ const editUserService = async (data) => {
 
 const changeRoleService = async (data) => {
   const { userId, role } = data;
-  const checkUser = await userDaos.findUserId(userId);
+  const checkUser = await userDaos.findUser({ _id: userId });
   if (checkUser) {
     await userDaos.updateUser({ _id: userId }, { role: role });
     return {

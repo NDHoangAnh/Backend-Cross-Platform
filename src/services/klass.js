@@ -40,9 +40,7 @@ const enrollClassByCodeService = async (code, userId) => {
           klass: [klass?._id],
         });
       }
-      return {
-        msg: "Enroll class successfully",
-      };
+      return klass;
     } else {
       return {
         errMsg: "User not found or have been enrolled class before",
