@@ -47,7 +47,7 @@ const deleteUserService = async (userId) => {
 
 const editUserService = async (data) => {
   const { id, username, password, role } = data;
-  const checkUser = await userDaos.findUser({ _id: userId });
+  const checkUser = await userDaos.findUser({ _id: id });
   if (checkUser) {
     await userDaos.updateUser(id, username, password, role);
     return {
