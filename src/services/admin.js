@@ -25,6 +25,7 @@ const getUserService = async (condition) => {
       login: user.login,
       verified: user.verified,
       role: user.role,
+      avatar: user.avatar,
     };
     return result;
   }

@@ -27,7 +27,7 @@ const addScheduleService = async ({ userId, plans, klass }) => {
 
 const getListTimeService = async (userId) => {
   const listPlan = await scheduleDaos.getDetailSchedule({ userId });
-  const listTime = listPlan.plans.map((plan) => ({
+  const listTime = listPlan?.plans?.map((plan) => ({
     timeStart: plan?.startTime,
     timeEnd: plan?.endTime,
   }));

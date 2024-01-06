@@ -1,4 +1,7 @@
 const validateTime = (startTime, endTime, listTimeToCheck) => {
+  if (listTimeToCheck === undefined) {
+    return false;
+  }
   const _startTime = new Date(startTime);
   const _endTime = new Date(endTime);
   const check = listTimeToCheck.map((item) => {
